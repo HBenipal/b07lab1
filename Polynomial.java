@@ -11,8 +11,8 @@ public class Polynomial {
     int [] exponents;
 
     public Polynomial(){
-        this.non_zero_coefficients = new double [1];
-        this.exponents = new int [1];
+        this.non_zero_coefficients = new double [0];
+        this.exponents = new int [0];
     }
 
     public Polynomial(double [] non_zero_coefficients, int [] exponents){
