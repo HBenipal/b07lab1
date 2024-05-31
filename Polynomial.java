@@ -36,6 +36,12 @@ public class Polynomial {
 
 
         Scanner input = new Scanner(myfile);
+        if (!(input.hasNext())){
+            this.non_zero_coefficients = new double[0];
+            this.exponents = new int[0];
+            return;
+        }
+
         String [] arr = (input.nextLine()).replaceAll("\\-", "+-").split("\\+");
         int len = arr.length;
 
