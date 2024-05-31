@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -17,35 +14,53 @@ public class Polynomial {
 
     public Polynomial(double [] non_zero_coefficients, int [] exponents){
 
+        int coef_len = non_zero_coefficients.length;
+        int exp_len = exponents.length;
         //Have to check if the lengths are the same
 
-        int len = non_zero_coefficients.length;
-        this.non_zero_coefficients = new double [len];
-        this.exponents = new int [len];
-        for (int i = 0; i < len; i++){
+
+        this.non_zero_coefficients = new double [coef_len];
+        this.exponents = new int [exp_len];
+
+        for (int i = 0; i < coef_len; i++){
             this.non_zero_coefficients[i] = non_zero_coefficients[i];
-            this.exponents[i] = exponents[i];
         }
+
+        for (int j = 0; j < exp_len; j++){
+            this.exponents[j] = exponents[j];
+        }
+
     }
 
-    public Polynomial(File myfile)  throws FileNotFoundException {
+    public Polynomial(File myfile)  throws FileNotFoundException, IOException {
+
+
         Scanner input = new Scanner(myfile);
-        String [] arr = (input.nextLine()).split("[-+]+");
+        String [] arr = (input.nextLine()).replaceAll("\\-", "+-").split("\\+");
         int len = arr.length;
-        this.non_zero_coefficients = new double [len];
-        this.exponents = new int [len];
 
-        for (int i = 0; i < len; i++){
+        int j = 0;
+        if (arr[0] == ""){
+            j = 1;
+        }
 
+        this.non_zero_coefficients = new double [len - j];
+        this.exponents = new int [len - j];
+        System.out.println(Arrays.toString(arr));
+
+        for (int i = j; i < len; i++){
             String [] arr1 = arr[i].split("x");
-            this.non_zero_coefficients[i] = Double.parseDouble(arr1[0]);
+            this.non_zero_coefficients[i-j] = Double.parseDouble(arr1[0]);
 
-            if (arr1.length == 1){
-                this.exponents[i] = 0;
+            if (arr1.length <= 1){
+                this.exponents[i-j] = 0;
             } else {
-                this.exponents[i] = Integer.parseInt(arr1[1]);
+                this.exponents[i-j] = Integer.parseInt(arr1[1]);
             }
         }
+
+
+       input.close();
     }
 
     public void saveToFile(String name) throws IOException {
@@ -61,7 +76,7 @@ public class Polynomial {
                         output.write("+" + Double.toString(this.non_zero_coefficients[i]));
                     }
                 } else {
-                    output.write("-"+Double.toString(this.non_zero_coefficients[i]));
+                    output.write(Double.toString(this.non_zero_coefficients[i]));
                 }
             } else{
                 if (this.non_zero_coefficients[i] >= 0) {
@@ -71,7 +86,7 @@ public class Polynomial {
                         output.write("+" + Double.toString(this.non_zero_coefficients[i]) + "x" + Integer.toString(this.exponents[i]));
                     }
                 } else {
-                    output.write("-"+Double.toString(this.non_zero_coefficients[i])+"x"+Integer.toString(this.exponents[i]));
+                    output.write(Double.toString(this.non_zero_coefficients[i])+"x"+Integer.toString(this.exponents[i]));
                 }
 
             }
