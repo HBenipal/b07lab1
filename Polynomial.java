@@ -8,8 +8,8 @@ public class Polynomial {
     int [] exponents;
 
     public Polynomial(){
-        this.non_zero_coefficients = new double [0];
-        this.exponents = new int [0];
+        this.non_zero_coefficients = null;
+        this.exponents = null;
     }
 
     public Polynomial(double [] non_zero_coefficients, int [] exponents){
@@ -72,6 +72,11 @@ public class Polynomial {
     public void saveToFile(String name) throws IOException {
         FileWriter output = new FileWriter(new File(name));
 
+        if (this.non_zero_coefficients == null && this.exponents==null){
+            output.write("0.0");
+            output.close();
+            return;
+        }
 
         for (int i = 0; i < this.exponents.length; i++) {
             if (this.exponents[i] == 0){
@@ -156,6 +161,13 @@ public class Polynomial {
         return max + 1;
     }
     public Polynomial add(Polynomial equation){
+
+        if (this.non_zero_coefficients == null){
+            return equation;
+        } else if (equation.non_zero_coefficients==null){
+            return this;
+        }
+
         int call_len = this.non_zero_coefficients.length;
         int arg_len = equation.non_zero_coefficients.length;
 
@@ -214,6 +226,11 @@ public class Polynomial {
     }
 
     public double evaluate(double x){
+
+        if (this.exponents == null){
+            return 0.0;
+        }
+
         double total = 0.0;
 
         for (int i = 0; i < this.non_zero_coefficients.length; i++){
@@ -236,6 +253,10 @@ public class Polynomial {
         return false;
     }
     public Polynomial multiply(Polynomial equation){
+        if (this.exponents==null || equation.exponents==null){
+            Polynomial fina = new Polynomial();
+            return fina;
+        }
 
         int call_len = this.exponents.length;
         int arg_len = equation.exponents.length;

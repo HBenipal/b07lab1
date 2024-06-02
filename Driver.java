@@ -6,17 +6,19 @@ import java.io.File;
 public class Driver {
     public static void main(String [] args) throws IOException {
         File f0 = new File("test.txt");
-        Polynomial test = new Polynomial(f0);
+        Polynomial test = new Polynomial();
+
+        test.saveToFile("fun.txt");
 
         File f1 = new File("test2.txt");
         Polynomial test2 = new Polynomial(f1);
 
-        Polynomial test3 = test.multiply(test2);
+        Polynomial test3 = test.add(test2);
 
         System.out.println(Arrays.toString(test3.non_zero_coefficients));
         System.out.println(Arrays.toString(test3.exponents));
 
-        test3.saveToFile("fun.txt");
+
 
 
         double [] non_zero_1 = {3.0, -2.0, 1.0};
