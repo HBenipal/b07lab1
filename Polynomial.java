@@ -37,8 +37,8 @@ public class Polynomial {
 
         Scanner input = new Scanner(myfile);
         if (!(input.hasNext())){
-            this.non_zero_coefficients = new double[0];
-            this.exponents = new int[0];
+            this.non_zero_coefficients = null;
+            this.exponents = null;
             return;
         }
 
@@ -163,9 +163,9 @@ public class Polynomial {
     public Polynomial add(Polynomial equation){
 
         if (this.non_zero_coefficients == null){
-            return equation;
+            return new Polynomial(equation.non_zero_coefficients, equation.exponents);
         } else if (equation.non_zero_coefficients==null){
-            return this;
+            return new Polynomial(this.non_zero_coefficients, this.exponents);
         }
 
         int call_len = this.non_zero_coefficients.length;

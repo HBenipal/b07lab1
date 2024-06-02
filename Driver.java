@@ -6,7 +6,7 @@ import java.io.File;
 public class Driver {
     public static void main(String [] args) throws IOException {
         File f0 = new File("test.txt");
-        Polynomial test = new Polynomial();
+        Polynomial test = new Polynomial(f0);
 
         test.saveToFile("fun.txt");
 
